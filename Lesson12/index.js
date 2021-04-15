@@ -50,8 +50,12 @@ todoControl.addEventListener('submit', (e) => {
         value: headerInput.value,
         completed: false,
     };
-    todoData.push(newTodo);
-    localStorage.setItem('todoItems', JSON.stringify(todoData));
+    if (todoData.find(data => data.value === newTodo.value)) {
+        alert('Уже есть такое задание');
+    } else {
+        todoData.push(newTodo);
+        localStorage.setItem('todoItems', JSON.stringify(todoData));
+    };
     render();
 });
 
