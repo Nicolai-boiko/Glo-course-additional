@@ -21,7 +21,7 @@ const render = function () {
 
         if (item.completed) {
             todoCompleted.append(li);
-        } else if (item.value.trim() === ''){
+        } else if (item.value.trim() === '') {
             return;
         } else {
             todoList.append(li);
@@ -37,7 +37,6 @@ const render = function () {
         btnTodoRemove.addEventListener('click', () => {
             todoData.splice(i, 1);
             localStorage.setItem('todoItems', JSON.stringify(todoData));
-            li.remove();
             render();
         });
     });
