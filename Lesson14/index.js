@@ -6,11 +6,11 @@ const DomElement = function (selector, height, width, bg, fontSize) {
     this.fontSize = fontSize;
   };
   
-  DomElement.prototype.createEl = function () {
+  DomElement.prototype.createEl = function (str) {
     if (this.selector[0] === '.') {
         let crDiv = document.createElement('div');
         crDiv.classList = this.selector.slice(1);
-        crDiv.innerText = 'Это <div> элемент';
+        crDiv.innerText = str;
         crDiv.style.height = this.height;
         crDiv.style.width = this.width;
         crDiv.style.background = this.bg;
@@ -19,7 +19,7 @@ const DomElement = function (selector, height, width, bg, fontSize) {
     } else if (this.selector[0] === '#') {
         let crP = document.createElement('p');
         crP.id = this.selector.slice(1);
-        crP.innerText = 'Это <p> элемент';
+        crP.innerText = str;
         crP.style.height = this.height;
         crP.style.width = this.width;
         crP.style.background = this.bg;
@@ -30,5 +30,5 @@ const DomElement = function (selector, height, width, bg, fontSize) {
   
   let div = new DomElement('.div-element_class', '30px', '60px', 'yellow', '12px');
   let p = new DomElement('#p-element_id', '30px', '90px', 'pink', '15px');
-  div.createEl();
-  p.createEl();
+  div.createEl('Это <div> элемент');
+  p.createEl('Это <p> элемент');
