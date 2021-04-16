@@ -1,12 +1,12 @@
-const DomElement = function (selector) {
+const DomElement = function (selector, height, width, bg, fontSize) {
     this.selector = selector;
-    this.height = '100px';
-    this.width  = '50px';
-    this.bg = 'green';
-    this.fontSize = '20px';
-};
-
-DomElement.prototype.createEl = function () {
+    this.height = height;
+    this.width  = width;
+    this.bg = bg;
+    this.fontSize = fontSize;
+  };
+  
+  DomElement.prototype.createEl = function () {
     if (this.selector[0] === '.') {
         let crDiv = document.createElement('div');
         crDiv.classList = this.selector.slice(1);
@@ -22,14 +22,13 @@ DomElement.prototype.createEl = function () {
         crP.innerText = 'Это <p> элемент';
         crP.style.height = this.height;
         crP.style.width = this.width;
-        this.bg = 'red';
         crP.style.background = this.bg;
         crP.style.fontSize = this.fontSize;
         document.body.append(crP);
     }
-};
-
-let div = new DomElement('.div-element_class');
-let p = new DomElement('#p-element_id');
-div.createEl();
-p.createEl();
+  };
+  
+  let div = new DomElement('.div-element_class', '30px', '60px', 'yellow', '12px');
+  let p = new DomElement('#p-element_id', '30px', '90px', 'pink', '15px');
+  div.createEl();
+  p.createEl();
