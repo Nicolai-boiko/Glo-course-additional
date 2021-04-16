@@ -9,7 +9,7 @@ const render = function () {
     todoList.textContent = '';
     todoCompleted.textContent = '';
 
-    todoData.forEach(item => {
+    todoData.forEach((item, i) => {
         const li = document.createElement('li');
         li.classList.add('todo-item');
         li.innerHTML = `<span class="text-todo">${item.value}</span>
@@ -33,12 +33,12 @@ const render = function () {
             item.completed = !item.completed;
             render();
         });
-        const btnTodoRemove = li.querySelector('.todo-remove');;
+        const btnTodoRemove = li.querySelector('.todo-remove');
         btnTodoRemove.addEventListener('click', () => {
-            let todoDataWithDeleted = todoData.filter(data => data.value !== item.value);
-            todoData = todoDataWithDeleted.slice();
+            todoData.splice(i, 1);
             localStorage.setItem('todoItems', JSON.stringify(todoData));
             li.remove();
+            render();
         });
     });
 };
@@ -50,8 +50,8 @@ todoControl.addEventListener('submit', (e) => {
         value: headerInput.value,
         completed: false,
     };
-    if (todoData.find(data => data.value === newTodo.value)) {
-        alert('Уже есть такое задание');
+    if (headerInput.value.trim() === '') {
+        return;
     } else {
         todoData.push(newTodo);
         localStorage.setItem('todoItems', JSON.stringify(todoData));
