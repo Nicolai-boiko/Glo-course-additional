@@ -18,41 +18,61 @@ function addZero(x) {
     };
     
 function render() {
-        userData.forEach((item) => {
-            const li = document.createElement('li');
-            li.classList.add('user-item');
-            li.innerHTML = `<span class="text-user">Имя: ${item.firstName}, фамилия: ${item.lastName}, зарегистрирован: ${item.regDate}</span>
-            <button class="user-remove"></button>
-            `;
-            list.append(li);
+    list.textContent = '';
+    userData.forEach((item) => {
+        const li = document.createElement('li');
+        li.classList.add('user-item');
+        li.innerHTML = `<span class="text-user">Имя: ${item.firstName}, фамилия: ${item.lastName}, зарегистрирован: ${item.regDate}</span>
+        <button class="user-remove"></button>
+        `;
+        list.append(li);
     });
 };
 
 function registration() {
 let firstLastNames = prompt('Введите Имя и Фамилию через пробел');
-const regex = /[a-zA-Zа-яА-Я] {1}[a-zA-Zа-яА-Я]/;
+const regexName = /[a-zA-Zа-яА-Я] {1}[a-zA-Zа-яА-Я]/;
+const regexLogin = /\w/;
+const regexPassword = /\w/;
 
-    if (firstLastNames.match(regex)) {
-        let arrName = firstLastNames.split(' ');    
-        const newUser = {
-            firstName: arrName[0],
-            lastName: arrName[1],
-            regDate: `${day} ${monthArray[month]} ${year} г., ${addZero(hours)}:${addZero(minutes)}:${addZero(seconds)}`
-        };
-        userData.push(newUser);
-        localStorage.setItem('users', JSON.stringify(userData));
-        render();
+let login;
+let password;
+
+do {
+    if (firstLastNames.match(regexName)) {
+        login = prompt('Введите Логин');
+            if (login.match(regexLogin)) {
+                password = prompt('Введите пароль');
+                    if (password.match(regexPassword)) {
+                        let arrName = firstLastNames.split(' ');    
+                        const newUser = {
+                            firstName: arrName[0],
+                            lastName: arrName[1],
+                            regDate: `${day} ${monthArray[month]} ${year} г., ${addZero(hours)}:${addZero(minutes)}:${addZero(seconds)}`
+                        };
+                        userData.push(newUser);
+                        localStorage.setItem('users', JSON.stringify(userData));
+                        render();
+                    } else {
+                        alert('Неправильный формат Пароля');
+                        password = prompt('Введите пароль');
+                    };
+            } else {
+                alert('Неправильный формат Логина');
+                login = prompt('Введите Логин');
+            };
     } else {
         alert('Неправильный формат ФИ');
         firstLastNames = prompt('Введите Имя и Фамилию через пробел');
     };
+} while (!password);
 };
 
 
 
 
 
-function login() {
+function loginFunc() {
 
 };
 
@@ -64,6 +84,6 @@ btnRegestration.addEventListener('click', (e) => {
 });
 btnLogin.addEventListener('click', (e) => {
     e.preventDefault;
-    login();
+    loginFunc();
 });
 render();
