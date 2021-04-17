@@ -1,5 +1,6 @@
 let btnRegestration = document.querySelector('.btn_reg');
 let btnLogin = document.querySelector('.btn_login');
+let title = document.querySelector('.title');
 let list = document.querySelector('.list');
 let userData = JSON.parse(localStorage.getItem('users')) || [];
 
@@ -19,64 +20,91 @@ function addZero(x) {
     
 function render() {
     list.textContent = '';
-    userData.forEach((item) => {
+    userData.forEach((item, i) => {
         const li = document.createElement('li');
         li.classList.add('user-item');
         li.innerHTML = `<span class="text-user">Имя: ${item.firstName}, фамилия: ${item.lastName}, зарегистрирован: ${item.regDate}</span>
-        <button class="user-remove"></button>
+        <button class="user-remove">Delete</button>
         `;
         list.append(li);
+
+        const btnRemove = li.querySelector('.user-remove');
+        btnRemove.addEventListener('click', () => {
+            userData.splice(i, 1);
+            localStorage.setItem('users', JSON.stringify(userData));
+            render();
+        });
     });
 };
 
 function registration() {
-let firstLastNames = prompt('Введите Имя и Фамилию через пробел');
-const regexName = /[a-zA-Zа-яА-Я] {1}[a-zA-Zа-яА-Я]/;
-const regexLogin = /\w/;
-const regexPassword = /\w/;
-
+    const regexName = /[a-zA-Zа-яА-Я] {1}[a-zA-Zа-яА-Я]/gi;
+    const regexLoginPas = /\w/gi;
+    
+let firstLastNames;
 let login;
 let password;
+    
+        do {
+            firstLastNames = prompt('Введите Имя и Фамилию через пробел');
+            if (!firstLastNames.match(regexName)) {
+                alert('Неправильный формат ФИ')
+            }
+        } while (!firstLastNames.match(regexName));
+        do {
+            login = prompt('Введите Логин');
+            if (!login.match(regexLoginPas)) {
+                alert('Неправильный формат логина')
+            } else if (userData.find(user => user.login === login) !== undefined) {
+                alert('Пользователь с таким логином уже существует');
+            }
+        } while (!login.match(regexLoginPas) || userData.find(user => user.login === login) !== undefined);
+        do {
+            password = prompt('Введите Пароль');
+            if (!password.match(regexLoginPas)) {
+                alert('Неправильный пароля')
+            } 
+        } while (!password.match(regexLoginPas));
 
-do {
-    if (firstLastNames.match(regexName)) {
-        login = prompt('Введите Логин');
-            if (login.match(regexLogin)) {
-                password = prompt('Введите пароль');
-                    if (password.match(regexPassword)) {
-                        let arrName = firstLastNames.split(' ');    
-                        const newUser = {
-                            firstName: arrName[0],
-                            lastName: arrName[1],
-                            regDate: `${day} ${monthArray[month]} ${year} г., ${addZero(hours)}:${addZero(minutes)}:${addZero(seconds)}`
-                        };
-                        userData.push(newUser);
-                        localStorage.setItem('users', JSON.stringify(userData));
-                        render();
-                    } else {
-                        alert('Неправильный формат Пароля');
-                        password = prompt('Введите пароль');
-                    };
-            } else {
-                alert('Неправильный формат Логина');
-                login = prompt('Введите Логин');
-            };
-    } else {
-        alert('Неправильный формат ФИ');
-        firstLastNames = prompt('Введите Имя и Фамилию через пробел');
-    };
-} while (!password);
+        
+        let arrName = firstLastNames.split(' ');    
+        const newUser = {
+            firstName: arrName[0],
+            lastName: arrName[1],
+            login,
+            password,
+            regDate: `${day} ${monthArray[month]} ${year} г., ${addZero(hours)}:${addZero(minutes)}:${addZero(seconds)}`
+        };
+        userData.push(newUser);
+        localStorage.setItem('users', JSON.stringify(userData));
+        render();
 };
-
-
-
-
 
 function loginFunc() {
+    const regexLoginPas = /\w/gi;
+    let login;
+    let password;
 
+    do {
+        login = prompt('Введите Логин');
+        if (!login.match(regexLoginPas)) {
+            alert('Неправильный формат логина')
+        }
+    } while (!login.match(regexLoginPas));
+    do {
+        password = prompt('Введите Пароль');
+        if (!password.match(regexLoginPas)) {
+            alert('Неправильный пароля')
+        } 
+    } while (!password.match(regexLoginPas));
+    let authorizedUser = userData.find(user => user.login === login);
+    if (authorizedUser && password === authorizedUser.password) {
+        title.textContent = `Привет ${authorizedUser.firstName}`;
+    } else {
+        alert('Пользователя с таким логином не сущестувует или не верный пароль')
+    };
+    
 };
-
-
 
 btnRegestration.addEventListener('click', (e) => {
     e.preventDefault;
