@@ -1,0 +1,73 @@
+* {
+    box-sizing: border-box;
+}
+
+h1, h2, h3, span, img {
+    padding: 0;
+    margin: 0;
+}
+html {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+    font-size: 12px;
+    line-height: 15px;
+    background-color: black;
+}
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 99%;
+    margin: auto;
+}
+.hero-card {
+    width: 9.5%;
+    border-radius: 10px;
+    padding: 4px 4px 8px 4px;
+	background-image: linear-gradient(to bottom right, #ff3cac, #562b7c, #2b86c5);
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.hero-card:hover {
+    transition: transform 0.1s ease-in-out;
+    transform: scale(1.2);
+}
+
+.hero-photo {
+    width: 100%;
+    height: 350px;
+    margin-bottom: 5px;
+}
+.info-container{
+    display: inline;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+.main-text {
+    font-size: 12px;
+    line-height: 7px;
+    text-decoration: none;
+    font-weight: lighter;
+}
+
+.header-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 40px;
+    margin-left: 1%;
+}
+
+.search {
+    width: 30%;
+}
+
+.head {
+    font-size: 50px;
+    color: white;
+}
