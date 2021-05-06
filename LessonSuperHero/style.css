@@ -5,12 +5,13 @@
 h1, h2, h3, span, img {
     padding: 0;
     margin: 0;
+    color: rgb(180, 180, 180);
 }
 html {
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
-    font-size: 12px;
-    line-height: 15px;
-    background-color: black;
+    font-size: 15px;
+    line-height: 20px;
+    background: left 0% / 100% url(./img/bg.jpg);
 }
 .wrapper {
     display: flex;
@@ -21,10 +22,11 @@ html {
     margin: auto;
 }
 .hero-card {
-    width: 9.5%;
+    width: 19%;
+    height: 19%;
     border-radius: 10px;
     padding: 4px 4px 8px 4px;
-	background-image: linear-gradient(to bottom right, #ff3cac, #562b7c, #2b86c5);
+	background-image: linear-gradient(to bottom right, #f64343, #185bd6, #3436d3);
     margin-bottom: 5px;
     margin-top: 5px;
 }
@@ -36,21 +38,21 @@ html {
 
 .hero-photo {
     width: 100%;
-    height: 350px;
+    height: 450px;
     margin-bottom: 5px;
 }
 .info-container{
-    display: inline;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    color: white;
+    border-radius: 10px;
+    padding: 5px;
+    width: 100%;
+    background: center / cover no-repeat url(./img/bg5.jpg);
 }
 .main-text {
-    font-size: 12px;
-    line-height: 7px;
+    font-size: 20px;
+    line-height: 20px;
     text-decoration: none;
     font-weight: lighter;
+    color: white;
 }
 
 .header-wrapper{
@@ -70,4 +72,36 @@ html {
 .head {
     font-size: 50px;
     color: white;
+}
+
+@media (max-width: 1450px) {
+    .hero-photo {
+        height: 350px;
+    }
+}
+@media (max-width: 1200px) {
+    .hero-card {
+        width: 30%;
+    }
+}
+@media (max-width: 880px) {
+    .head {
+        font-size: 30px;
+    }
+}
+@media (max-width: 750px) {
+    .hero-card {
+        width: 45%;
+    }
+}
+@media (max-width: 550px) {
+    .head {
+        font-size: 20px;
+    }
+    .hero-card {
+        width: 95%;
+    }
+    .hero-photo {
+        height: 450px;
+    }
 }
