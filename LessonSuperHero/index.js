@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'use strict';
 
     const wrapper = document.querySelector('.wrapper');
+    const select = document.querySelector('.search');
 
     const getData = () => {
         return fetch('./database/dbHeroes.json')
@@ -11,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     getData()
         .then(response => response.json())
         .then(data => {
-            data.forEach((item, i) => {
+            data.forEach((item) => {
                 const crDiv = document.createElement('div');
                 crDiv.classList.add('hero-card');
                 crDiv.innerHTML = `
@@ -24,11 +25,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 `;
                 wrapper.append(crDiv);
+                
                 if (item.movies) item.movies.forEach(item => filmsArr.push(item));
-                const crOption = document.createElement('option');
             })
-        })
-    console.log(filmsArr);
-    let films = new Set(filmsArr);
-    console.log(films);
+            filmsArr.sort();
+            const filmsSet = new Set(filmsArr);
+            filmsSet.forEach(film => {
+                const crOption = document.createElement('option');
+                crOption.innerHTML = `
+                <option>${film}</option>
+                `;
+                select.append(crOption);
+
+            })
+        });
+        select.addEventListener('change', () => {
+            
+        });
 })
