@@ -375,9 +375,9 @@ const createSelectList = (e) => {
     })
 }
 mainForm.addEventListener('click', (e) => {
-    if (e.target.classList.contains('dropdown-lists__total-line')) {
+    if (e.target.closest('.dropdown-lists__total-line')) {
         if (selectList.innerHTML === '') {
-            createSelectList(e.target)
+            createSelectList(e.target.closest('.dropdown-lists__total-line'))
         } else {
             createDefaultList()
         }
