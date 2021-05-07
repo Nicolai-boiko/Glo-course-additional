@@ -434,6 +434,7 @@ input.addEventListener('input', function() {
         autocompleteList.innerHTML = '';
         createAutocompleteList.call(this);
     } else {
+        btn.href = '#';
         closeButton.style.display = 'none';
         createDefaultList();
     }
@@ -451,5 +452,6 @@ closeButton.addEventListener('click', () => {
     selectList.innerHTML = '';
     autocompleteList.innerHTML = '';
     label.style.display = 'block';
-    closeButton.style.display = 'none'
+    closeButton.style.display = 'none';
+    btn.href = '#';
 })
