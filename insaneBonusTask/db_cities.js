@@ -5,8 +5,7 @@ let dataT;
 getData()
     .then(blob => blob.json())
     .then(cityData => {
-        dataT = cityData;
-        console.log(cityData);
+        dataT = JSON.parse(JSON.stringify(cityData));
     });
 console.log(dataT);
 
