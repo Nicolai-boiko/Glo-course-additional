@@ -6,6 +6,7 @@ getData()
     .then(blob => blob.json())
     .then(cityData => {
         dataT = cityData;
+        console.log(cityData);
     });
 console.log(dataT);
 
