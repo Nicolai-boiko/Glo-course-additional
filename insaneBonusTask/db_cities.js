@@ -1,8 +1,12 @@
 const getData = () => {
     return fetch('./db_cities.json')
-        .then(blob => blob.json())
-        .then()
 }
+let dataT;
+getData()
+    .then(blob => blob.json())
+    .then(cityData => {
+        dataT = cityData;
+    });
 console.log(dataT);
 
 const data = {
