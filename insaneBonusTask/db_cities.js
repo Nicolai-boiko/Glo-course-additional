@@ -1,3 +1,10 @@
+const getData = () => {
+    return fetch('./db_cities.json')
+        .then(blob => blob.json())
+        .then()
+}
+console.log(dataT);
+
 const data = {
     "RU": [
         {
