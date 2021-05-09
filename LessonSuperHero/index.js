@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 select.append(crOption);
             })
         });
-
+        
 
         
     function render (item) {
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function sortCards(){
-        if (select.value !== 'Выберите героя'){
+        if (select.value !== 'Выберите фильм'){
             wrapper.innerHTML = '';
             let filtredFilmData = filmData.filter((item) => {
                 if (item.movies != null && item.movies.length > 0){
