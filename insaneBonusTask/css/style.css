@@ -130,9 +130,11 @@ body .main .input-cities label {
 
 .dropdown-lists__list {
   width: 100%;
+  transition: transform 1.4s;
 }
 
 .dropdown-lists__list--select {
+  transform: translateY(150%);
   display: none;
 }
 

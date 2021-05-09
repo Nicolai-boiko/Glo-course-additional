@@ -14,6 +14,7 @@ const defaultList = document.querySelector('.dropdown-lists__list--default > .dr
 const input = document.getElementById('select-cities');
 
 const createDefaultList = () => {
+    defaultMain.style.transform = 'translateX(0%)';
     defaultList.innerHTML = '';
     selectList.innerHTML = '';
     autocompleteList.innerHTML = '';
@@ -60,12 +61,18 @@ const selectMain = document.querySelector('.dropdown-lists__list--select');
 const selectList = document.querySelector('.dropdown-lists__list--select > .dropdown-lists__col');
 const closeButton = document.querySelector('.close-button');
 const btn = document.querySelector('.button');
+const dropdown = document.querySelector('.dropdown');
 
 const createSelectList = (e) => {
-    defaultList.innerHTML = '';
     autocompleteList.innerHTML = '';
     autocompleteMain.style.display = 'none';
-    defaultMain.style.display = 'none';
+    defaultMain.style.transform = 'translateX(-150%)';
+    selectMain.style.transform = 'translateX(0%)';
+    defaultMain.addEventListener('transitionend', () => {
+        defaultList.innerHTML = '';
+        defaultMain.style.display = 'none';
+    })
+    
     selectMain.style.display = 'block';
     data.RU.forEach(obj => {
         if (obj.country === e.children[0].innerText) {
