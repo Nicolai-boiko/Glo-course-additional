@@ -1,6 +1,4 @@
-// Сервер json-server
-//npm install -g json-server
-//json-server -d1000 db_cities.json
+// Сервер json-server команды в package json install и server
 
 
 let language =  document.cookie.slice(5) || prompt('Введите язык/Insert languge: (ru, en, de)').toUpperCase();
