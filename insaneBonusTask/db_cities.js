@@ -1,3 +1,8 @@
+let language =  document.cookie.slice(5) || prompt('Введите язык/Insert languge: (ru, en, de)').toUpperCase();
+document.cookie = "lang=" + encodeURIComponent(language);
+
+
+
 const mainForm = document.querySelector('.dropdown-lists');
 const defaultMain = document.querySelector('.dropdown-lists__list--default');
 const defaultList = document.querySelector('.dropdown-lists__list--default > .dropdown-lists__col');
@@ -6,7 +11,7 @@ const input = document.getElementById('select-cities');
 const selectMain = document.querySelector('.dropdown-lists__list--select');
 const selectList = document.querySelector('.dropdown-lists__list--select > .dropdown-lists__col');
 const closeButton = document.querySelector('.close-button');
-const btn = document.querySelector('.button');
+let btn = document.querySelector('.button');
 const btnWrapper = document.querySelector('.btn-wrapper');
 const dropdown = document.querySelector('.dropdown');
 
@@ -16,7 +21,11 @@ const label = document.querySelector('.label');
 
 
 let btnWrapperInnerHTML = btnWrapper.innerHTML;
-btnWrapper.innerHTML = `
+
+
+let data = JSON.parse(localStorage.getItem('data')) || [];
+if (data.length === 0){
+    btnWrapper.innerHTML = `
     <div>Загружается база данных, подождите...</div>
     <div class="spinner">
         <div class="rect1"></div>
@@ -26,25 +35,51 @@ btnWrapper.innerHTML = `
         <div class="rect5"></div>
     </div>
     `;
-input.setAttribute('disabled', 'disabled');
-
-const getData = () => {
-    return fetch('http://localhost:3000/RU')
+    input.setAttribute('disabled', 'disabled');
+    const getData = () => {
+        return fetch(`http://localhost:3000/${language}`)
+    }
+    getData()
+        .then(blob => blob.json())
+        .then(cityData => {
+            localStorage.setItem('data', JSON.stringify(cityData));
+            data = JSON.parse(JSON.stringify(cityData));
+            btnWrapper.innerHTML = btnWrapperInnerHTML;
+            input.removeAttribute('disabled');
+            btn = document.querySelector('.button');
+        });
 }
-let data;
-getData()
-    .then(blob => blob.json())
-    .then(cityData => {
-        data = JSON.parse(JSON.stringify(cityData));
-        btnWrapper.innerHTML = btnWrapperInnerHTML;
-        input.removeAttribute('disabled');
-    });
+
+/* if (language === 'RU') {
+    data.sort((a) => {
+        if (a.country === "Россия") {
+            return 1
+        } else {
+            return -1;
+        };
+    })
+} else if (language === 'EN') {
+    data.sort((a) => {
+        if (a.country === "United Kingdom") {
+            return 1
+        } else {
+            return -1;
+        };
+    })
+} else if (language === 'DE') {
+    data.sort((a) => {
+        if (a.country === "Deutschland") {
+            return 1
+        } else {
+            return -1;
+        };
+    })
+}; */
 
 function transitionEnd (){
     selectList.innerHTML = '';
     selectMain.style.display = 'none';
 }
-
 
 const createDefaultList = () => {
     mainForm.style.transform = 'translateX(0%)';
@@ -111,6 +146,7 @@ const createSelectList = (e) => {
 }
 
 function createAutocompleteList () {
+    mainForm.style.transform = 'translateX(0%)';
     defaultList.innerHTML = '';
     selectList.innerHTML = '';
     autocompleteList.innerHTML = '';
@@ -126,6 +162,7 @@ function createAutocompleteList () {
         }
         const matchArray = findMatches(this.value, obj.cities);
         if (matchArray != null && matchArray.length > 0) {
+            console.log(btn);
             btn.href = matchArray[0].link;
         };
         const html = matchArray.map(place => {
