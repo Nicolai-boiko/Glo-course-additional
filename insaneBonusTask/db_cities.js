@@ -1,7 +1,10 @@
+// Сервер json-server
+//npm install -g json-server
+//json-server -d1000 db_cities.json
+
+
 let language =  document.cookie.slice(5) || prompt('Введите язык/Insert languge: (ru, en, de)').toUpperCase();
 document.cookie = "lang=" + encodeURIComponent(language);
-
-
 
 const mainForm = document.querySelector('.dropdown-lists');
 const defaultMain = document.querySelector('.dropdown-lists__list--default');
