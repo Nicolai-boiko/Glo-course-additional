@@ -163,7 +163,6 @@ function createAutocompleteList () {
         }
         const matchArray = findMatches(this.value, obj.cities);
         if (matchArray != null && matchArray.length > 0) {
-            console.log(btn);
             btn.href = matchArray[0].link;
         };
         const html = matchArray.map(place => {

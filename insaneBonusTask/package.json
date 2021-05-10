@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "install": "npm install json-server",
-    "server": "json-server -d1000 db_cities.json"
+    "server": "json-server -d1000 ./public/db_cities.json"
   },
   "keywords": [],
   "author": "",
