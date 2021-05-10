@@ -3,3 +3,6 @@
     "json-server": "^0.16.3"
   }
 }
+// Сервер json-server
+//npm install -g json-server
+//json-server -d1000 db_cities.json
