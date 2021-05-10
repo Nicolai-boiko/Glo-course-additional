@@ -1,27 +1,60 @@
+const mainForm = document.querySelector('.dropdown-lists');
+const defaultMain = document.querySelector('.dropdown-lists__list--default');
+const defaultList = document.querySelector('.dropdown-lists__list--default > .dropdown-lists__col');
+const input = document.getElementById('select-cities');
+
+const selectMain = document.querySelector('.dropdown-lists__list--select');
+const selectList = document.querySelector('.dropdown-lists__list--select > .dropdown-lists__col');
+const closeButton = document.querySelector('.close-button');
+const btn = document.querySelector('.button');
+const btnWrapper = document.querySelector('.btn-wrapper');
+const dropdown = document.querySelector('.dropdown');
+
+const autocompleteMain = document.querySelector('.dropdown-lists__list--autocomplete');
+const autocompleteList = document.querySelector('.dropdown-lists__list--autocomplete > .dropdown-lists__col');
+const label = document.querySelector('.label');
+
+
+let btnWrapperInnerHTML = btnWrapper.innerHTML;
+btnWrapper.innerHTML = `
+    <div>Загружается база данных, подождите...</div>
+    <div class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+    </div>
+    `;
+input.setAttribute('disabled', 'disabled');
+
 const getData = () => {
-    return fetch('./db_cities.json')
+    return fetch('http://localhost:3000/RU')
 }
 let data;
 getData()
     .then(blob => blob.json())
     .then(cityData => {
         data = JSON.parse(JSON.stringify(cityData));
+        btnWrapper.innerHTML = btnWrapperInnerHTML;
+        input.removeAttribute('disabled');
     });
 
-const mainForm = document.querySelector('.dropdown-lists');
-const defaultMain = document.querySelector('.dropdown-lists__list--default');
-const defaultList = document.querySelector('.dropdown-lists__list--default > .dropdown-lists__col');
-const input = document.getElementById('select-cities');
+function transitionEnd (){
+    selectList.innerHTML = '';
+    selectMain.style.display = 'none';
+}
+
 
 const createDefaultList = () => {
-    defaultMain.style.transform = 'translateX(0%)';
+    mainForm.style.transform = 'translateX(0%)';
     defaultList.innerHTML = '';
-    selectList.innerHTML = '';
-    autocompleteList.innerHTML = '';
     defaultMain.style.display = 'block';
-    selectMain.style.display = 'none';
+    autocompleteList.innerHTML = '';
     autocompleteMain.style.display = 'none';
-    data.RU.forEach(obj => {
+    mainForm.addEventListener('transitionend', transitionEnd);
+    
+    data.forEach(obj => {
         obj.cities.sort((a, b) => +a.count > +b.count ? -1 : 1);
         const crDiv = document.createElement('div');
         crDiv.classList.add('dropdown-lists__countryBlock');
@@ -46,35 +79,14 @@ const createDefaultList = () => {
         defaultList.append(crDiv);
     })
 }
-input.addEventListener('click', () => {
-    if(input.value === '') {
-        createDefaultList()
-    }
-});
-
-
-
-
-
-
-const selectMain = document.querySelector('.dropdown-lists__list--select');
-const selectList = document.querySelector('.dropdown-lists__list--select > .dropdown-lists__col');
-const closeButton = document.querySelector('.close-button');
-const btn = document.querySelector('.button');
-const dropdown = document.querySelector('.dropdown');
 
 const createSelectList = (e) => {
+    mainForm.removeEventListener('transitionend', transitionEnd);
     autocompleteList.innerHTML = '';
     autocompleteMain.style.display = 'none';
-    defaultMain.style.transform = 'translateX(-150%)';
-    selectMain.style.transform = 'translateX(0%)';
-    defaultMain.addEventListener('transitionend', () => {
-        defaultList.innerHTML = '';
-        defaultMain.style.display = 'none';
-    })
-    
     selectMain.style.display = 'block';
-    data.RU.forEach(obj => {
+    mainForm.style.transform = 'translateX(-100%)';
+    data.forEach(obj => {
         if (obj.country === e.children[0].innerText) {
             const crDivCountry = document.createElement('div');
             crDivCountry.classList.add('dropdown-lists__countryBlock');
@@ -97,27 +109,6 @@ const createSelectList = (e) => {
         }
     })
 }
-mainForm.addEventListener('click', (e) => {
-    if (e.target.closest('.dropdown-lists__total-line')) {
-        if (selectList.innerHTML === '') {
-            createSelectList(e.target.closest('.dropdown-lists__total-line'))
-        } else {
-            createDefaultList()
-        }
-    } else if (e.target.classList.contains('dropdown-lists__city')) {
-        input.value = e.target.innerText;
-        label.style.display = 'none';
-        closeButton.style.display = 'block';
-        createAutocompleteList.call(input);
-    }
-});
-
-
-
-
-const autocompleteMain = document.querySelector('.dropdown-lists__list--autocomplete');
-const autocompleteList = document.querySelector('.dropdown-lists__list--autocomplete > .dropdown-lists__col');
-const label = document.querySelector('.label');
 
 function createAutocompleteList () {
     defaultList.innerHTML = '';
@@ -126,7 +117,7 @@ function createAutocompleteList () {
     defaultMain.style.display = 'none';
     selectMain.style.display = 'none';
     autocompleteMain.style.display = 'block';
-    data.RU.forEach(obj => {
+    data.forEach(obj => {
         function findMatches(wordToMatch, cities) {
             return cities.filter(place => {
                 const regex = new RegExp(wordToMatch, 'gi');
@@ -151,6 +142,13 @@ function createAutocompleteList () {
     });
     if (autocompleteList.innerHTML === '') autocompleteList.innerHTML = 'Ниечго не найдено';
 }
+
+input.addEventListener('click', () => {
+    if(input.value === '') {
+        createDefaultList()
+    }
+});
+
 input.addEventListener('input', function() {
     if (input.value !== '') {
         closeButton.style.display = 'block';
@@ -168,6 +166,22 @@ input.addEventListener('blur', () => {
     }
 })
 input.addEventListener('focus', () => label.style.display = 'block');
+
+
+mainForm.addEventListener('click', (e) => {
+    if (e.target.closest('.dropdown-lists__total-line')) {
+        if (selectList.innerHTML === '') {
+            createSelectList(e.target.closest('.dropdown-lists__total-line'))
+        } else {
+            createDefaultList()
+        }
+    } else if (e.target.classList.contains('dropdown-lists__city')) {
+        input.value = e.target.innerText;
+        label.style.display = 'none';
+        closeButton.style.display = 'block';
+        createAutocompleteList.call(input);
+    }
+});
 
 closeButton.addEventListener('click', () => {
     input.value = '';
