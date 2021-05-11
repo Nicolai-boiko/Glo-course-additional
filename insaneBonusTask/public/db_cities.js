@@ -1,8 +1,14 @@
 // Сервер json-server команды в package json install и server
 
+let language = document.cookie.slice(5);
+if (language === '') {
+    do {
+        language = prompt('Введите язык/Insert languge: (ru, en, de)').toUpperCase();
+        document.cookie = "lang=" + encodeURIComponent(language);
+    } while (!(language === 'RU' || language === 'EN' || language === 'DE'))
+}
 
-let language =  document.cookie.slice(5) || prompt('Введите язык/Insert languge: (ru, en, de)').toUpperCase();
-document.cookie = "lang=" + encodeURIComponent(language);
+
 
 const mainForm = document.querySelector('.dropdown-lists');
 const defaultMain = document.querySelector('.dropdown-lists__list--default');
