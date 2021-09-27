@@ -31,6 +31,7 @@ const render = function () {
         const btnTodoComplete = li.querySelector('.todo-complete');
         btnTodoComplete.addEventListener('click', () => {
             item.completed = !item.completed;
+            localStorage.setItem('todoItems', JSON.stringify(todoData));
             render();
         });
         const btnTodoRemove = li.querySelector('.todo-remove');

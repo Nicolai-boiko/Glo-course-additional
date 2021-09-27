@@ -83,9 +83,6 @@ body {
     border: 0;
     box-shadow: none;
     outline: none;
-
-    -webkit-appearance: none;
-    -moz-appearance: none;
 }
 
 .header-input::-webkit-input-placeholder {
@@ -110,9 +107,6 @@ body {
     box-shadow: none;
     outline: none;
     cursor: pointer;
-
-    -webkit-appearance: none;
-    -moz-appearance: none;
 }
 
 
@@ -164,9 +158,6 @@ body {
     box-shadow: none;
     outline: none;
     cursor: pointer;
-
-    -webkit-appearance: none;
-    -moz-appearance: none;
 }
 
 .todo-buttons .buttons button:last-of-type:before {
